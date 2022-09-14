@@ -92,9 +92,9 @@ public abstract class Wagon {
     public void attachTail(Wagon tail) {
 
         //This wagon has previous wagon, so tail is already attached to a wagon in front of it
-        if(this.hasPreviousWagon()){
+        if(this.hasNextWagon()){
             MessageFormat message = new MessageFormat("{0} has already been attached to {1}");
-            throw new IllegalStateException(message.format(new Object[]{this, this.getPreviousWagon()}));
+            throw new IllegalStateException(message.format(new Object[]{this, this.getNextWagon()}));
         }
 
         //Check tail has no previous wagon
