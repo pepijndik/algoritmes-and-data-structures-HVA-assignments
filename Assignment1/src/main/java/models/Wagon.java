@@ -126,8 +126,12 @@ public abstract class Wagon {
     public Wagon detachFront() {
         // TODO detach this wagon from its predecessor (sustaining the invariant propositions).
         //   and return that predecessor
-
-        return null;
+        Wagon previous = this.previousWagon;
+        if(previous != null){
+            previous.nextWagon = null;
+            this.previousWagon = null;
+        }
+        return previous;
     }
 
     /**
