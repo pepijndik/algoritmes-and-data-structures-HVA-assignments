@@ -32,6 +32,9 @@ public abstract class Wagon {
         return previousWagon;
     }
 
+    public Wagon setPreviousWagon(Wagon wagon) {
+        return previousWagon = wagon;
+    }
     /**
      * @return  whether this wagon has a wagon appended at the tail
      */
@@ -66,8 +69,13 @@ public abstract class Wagon {
      */
     public int getSequenceLength() {
         // TODO traverse the sequence and find its length
-
-        return 0;
+        int length = 1;
+        Wagon next = this;
+        while (next.hasNextWagon()){
+            length++;
+            next = this.getNextWagon();
+        }
+        return length;
     }
 
     /**
@@ -104,12 +112,8 @@ public abstract class Wagon {
      *          or <code>null</code> if it had no wagons attached to its tail.
      */
     public Wagon detachTail() {
-        // TODO detach the tail and return the first wagon of the tail
+        Wagon first = this.nextWagon;
         this.nextWagon = null;
-        Wagon first = this;
-        while(first.hasPreviousWagon()){
-            first = this.getPreviousWagon();
-        }
         return first;
     }
 

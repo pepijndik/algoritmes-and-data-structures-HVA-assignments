@@ -1,5 +1,5 @@
 package models;
-
+import java.util.LinkedList;
 public class Train {
     private final String origin;
     private final String destination;
@@ -47,16 +47,20 @@ public class Train {
      *              (can be null)
      */
     public void setFirstWagon(Wagon wagon) {
-       int wagonId =0;
-       Wagon prevFirst = this.firstWagon;
-       Wagon newWagon = wagon;
+        final Wagon first = firstWagon;
+        firstWagon = wagon;
 
-       //Detach first Wagon
-       while(prevFirst != null){
-          Wagon next = this.firstWagon.getNextWagon();
-          prevFirst =next.getPreviousWagon();;
-       }
+        int wagonId =0;
+        Wagon prevFirst = this.firstWagon;
+        Wagon newWagon = wagon;
+
+        //Detach first Wagon
+        while(prevFirst != null){
+            Wagon next = this.firstWagon.getNextWagon();
+            prevFirst =next.getPreviousWagon();;
+        }
         this.firstWagon = wagon;
+
     }
 
     /**
@@ -106,9 +110,17 @@ public class Train {
      *          (return null if the position is not valid for this train)
      */
     public Wagon findWagonAtPosition(int position) {
-        // TODO
-
-        return null;
+        Wagon wagon = firstWagon;
+        int wagonPos = 0;
+        try{
+            while(wagonPos <= position){
+                wagon = this.firstWagon.getNextWagon();
+                wagonPos++;
+            }
+        }catch (Exception e){
+            return null;
+        }
+        return wagon;
     }
 
     /**
