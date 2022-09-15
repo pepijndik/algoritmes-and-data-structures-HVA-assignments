@@ -173,13 +173,23 @@ public abstract class Wagon {
      * Reverses the order in the sequence of wagons from this Wagon until its final successor.
      * The reversed sequence is attached again to the wagon in front of this Wagon, if any.
      * No action if this Wagon has no succeeding next wagon attached.
-     * @return the new start Wagon of the reversed sequence (with is the former last Wagon of the original sequence)
+     * @return the new start Wagon of the reversed sequence (which is the former last Wagon of the original sequence)
      */
     public Wagon reverseSequence() {
-        // TODO provide an iterative implementation,
-        //   using attach- and detach methods of this class
+        if (this.hasNextWagon()) {
+            Wagon next = this.getNextWagon();
+            Wagon prev = this.getPreviousWagon();
 
-        return null;
+            this.detachTail();
+            this.detachFront();
+
+            prev.attachTail(next);
+            next.attachTail(this);
+
+            return next;
+        }
+
+        return this;
     }
 
     @Override
