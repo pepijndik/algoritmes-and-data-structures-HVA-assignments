@@ -379,4 +379,17 @@ public class WagonTest {
         assertFalse(passengerWagon3.hasNextWagon());
         assertNotEquals(passengerWagon2, passengerWagon3.getPreviousWagon());
     }
+
+    @Test
+    public void T12_RemoveThirdWagonShouldResultInNoAction() {
+        passengerWagon1.attachTail(passengerWagon2);
+        passengerWagon2.attachTail(passengerWagon3);
+
+        Wagon rev = passengerWagon3.reverseSequence();
+
+        assertEquals(rev, passengerWagon3);
+
+        assertFalse(rev.hasNextWagon());
+        assertEquals(passengerWagon2, rev.getPreviousWagon());
+    }
 }
