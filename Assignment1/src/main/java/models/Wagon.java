@@ -4,10 +4,10 @@ import java.text.MessageFormat;
 
 public abstract class Wagon {
     protected int id;               // some unique ID of a Wagon
-    private Wagon nextWagon;        // another wagon that is appended at the tail of this wagon
+    private Wagon nextWagon = null;        // another wagon that is appended at the tail of this wagon
                                     // a.k.a. the successor of this wagon in a sequence
                                     // set to null if no successor is connected
-    private Wagon previousWagon;    // another wagon that is prepended at the front of this wagon
+    private Wagon previousWagon = null;    // another wagon that is prepended at the front of this wagon
                                     // a.k.a. the predecessor of this wagon in a sequence
                                     // set to null if no predecessor is connected
 
@@ -143,7 +143,7 @@ public abstract class Wagon {
      */
     public void reAttachTo(Wagon front) {
         // TODO detach any existing connections that will be rearranged
-
+        Wagon previous = this.getPreviousWagon();
         // TODO attach this wagon to its new predecessor front (sustaining the invariant propositions).
     }
 
@@ -169,5 +169,8 @@ public abstract class Wagon {
         return null;
     }
 
-    // TODO string representation of a Wagon
+    @Override
+    public String toString() {
+        return  String.format("[Wagon-%s]", this.id);
+    }
 }
