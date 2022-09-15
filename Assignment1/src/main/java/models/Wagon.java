@@ -144,10 +144,8 @@ public abstract class Wagon {
      */
     public void reAttachTo(Wagon front) {
         front.detachTail();
-
         this.detachFront();
         this.nextWagon = null;
-
         front.attachTail(this);
     }
 
@@ -159,15 +157,13 @@ public abstract class Wagon {
        Wagon prev = this.getPreviousWagon();
        Wagon next =this.getNextWagon();
 
-         if(prev != null){
-              prev.detachTail();
-              prev.attachTail(next);
-         }
-         if(next != null){
-              next.detachFront();
-              next.reAttachTo(prev);
-         }
+       this.detachTail();
+       this.detachFront();
 
+       if(prev!=null){
+           prev.detachTail();
+           prev.attachTail(next);
+       }
     }
 
 

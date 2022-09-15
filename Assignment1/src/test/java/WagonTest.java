@@ -360,4 +360,23 @@ public class WagonTest {
         assertEquals(passengerWagon1, passengerWagon2.getPreviousWagon());
         assertEquals(passengerWagon4, passengerWagon2.getNextWagon());
     }
+
+
+    @Test
+    public void T11_RemoveSecondWagonFromThreeShouldResultInSequenceOfThree() {
+        passengerWagon1.attachTail(passengerWagon2);
+        passengerWagon2.attachTail(passengerWagon3);
+
+        // remove first wagon
+        passengerWagon2.removeFromSequence();
+
+        assertTrue(passengerWagon1.hasNextWagon());
+        assertFalse(passengerWagon1.hasPreviousWagon());
+
+        assertNotEquals(passengerWagon3, passengerWagon2.getNextWagon());
+        assertFalse(passengerWagon2.hasPreviousWagon());
+
+        assertFalse(passengerWagon3.hasNextWagon());
+        assertNotEquals(passengerWagon2, passengerWagon3.getPreviousWagon());
+    }
 }
