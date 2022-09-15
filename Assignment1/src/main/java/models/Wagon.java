@@ -68,7 +68,6 @@ public abstract class Wagon {
      * including this wagon itself.
      */
     public int getSequenceLength() {
-        // TODO traverse the sequence and find its length
         int length = 1;
         Wagon next = this;
         while (next.hasNextWagon()){
@@ -93,14 +92,12 @@ public abstract class Wagon {
 
         //This wagon has previous wagon, so tail is already attached to a wagon in front of it
         if(this.hasNextWagon()){
-            MessageFormat message = new MessageFormat("{0} has already been attached to {1}");
-            throw new IllegalStateException(message.format(new Object[]{this, this.getNextWagon()}));
+            throw new IllegalStateException(String.format("%s has already been attached to %s", this, this.getNextWagon()));
         }
 
         //Check tail has no previous wagon
         if(tail.hasPreviousWagon()){
-            MessageFormat message = new MessageFormat("{0} is already pulling {1}");
-            throw new IllegalStateException(message.format(new Object[]{tail, tail.hasPreviousWagon()}));
+            throw new IllegalStateException(String.format("%s is already pulling %s", tail, tail.getPreviousWagon()));
         }
 
         this.nextWagon = tail;
