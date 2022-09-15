@@ -162,7 +162,9 @@ public abstract class Wagon {
 
        if(prev!=null){
            prev.detachTail();
-           prev.attachTail(next);
+           if(next!=null){
+               prev.attachTail(next);
+           }
        }
     }
 
