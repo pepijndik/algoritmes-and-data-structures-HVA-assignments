@@ -1,5 +1,7 @@
 package models;
+
 import java.util.LinkedList;
+
 public class Train {
     private final String origin;
     private final String destination;
@@ -43,6 +45,7 @@ public class Train {
      * Replaces the current sequence of wagons (if any) in the train
      * by the given new sequence of wagons (if any)
      * (sustaining all representation invariants)
+     *
      * @param wagon the first wagon of a sequence of wagons to be attached
      *              (can be null)
      */
@@ -50,21 +53,22 @@ public class Train {
         final Wagon first = firstWagon;
         firstWagon = wagon;
 
-        int wagonId =0;
+        int wagonId = 0;
         Wagon prevFirst = this.firstWagon;
         Wagon newWagon = wagon;
 
         //Detach first Wagon
-        while(prevFirst != null){
+        while (prevFirst != null) {
             Wagon next = this.firstWagon.getNextWagon();
-            prevFirst =next.getPreviousWagon();;
+            prevFirst = next.getPreviousWagon();
+            ;
         }
         this.firstWagon = wagon;
 
     }
 
     /**
-     * @return  the number of Wagons connected to the train
+     * @return the number of Wagons connected to the train
      */
     public int getNumberOfWagons() {
         // TODO
@@ -73,7 +77,7 @@ public class Train {
     }
 
     /**
-     * @return  the last wagon attached to the train
+     * @return the last wagon attached to the train
      */
     public Wagon getLastWagonAttached() {
         // TODO
@@ -82,20 +86,28 @@ public class Train {
     }
 
     /**
-     * @return  the total number of seats on a passenger train
-     *          (return 0 for a freight train)
+     * @return the total number of seats on a passenger train
+     * (return 0 for a freight train)
      */
     public int getTotalNumberOfSeats() {
-        // TODO
+        if (this.firstWagon instanceof FreightWagon) {
+            return 0;
+        }
 
-        return 0;
+        int totalSeats = 0;
+        Wagon currentWagon = this.firstWagon;
+        while (currentWagon != null) {
+            totalSeats += ((PassengerWagon) currentWagon).getNumberOfSeats();
+            currentWagon = currentWagon.getNextWagon();
+        }
+        return totalSeats;
     }
 
     /**
      * calculates the total maximum weight of a freight train
-     * @return  the total maximum weight of a freight train
-     *          (return 0 for a passenger train)
      *
+     * @return the total maximum weight of a freight train
+     * (return 0 for a passenger train)
      */
     public int getTotalMaxWeight() {
         // TODO
@@ -103,21 +115,22 @@ public class Train {
         return 0;
     }
 
-     /**
+    /**
      * Finds the wagon at the given position (starting at 1 for the first wagon of the train)
+     *
      * @param position
-     * @return  the wagon found at the given position
-     *          (return null if the position is not valid for this train)
+     * @return the wagon found at the given position
+     * (return null if the position is not valid for this train)
      */
     public Wagon findWagonAtPosition(int position) {
         Wagon wagon = firstWagon;
         int wagonPos = 0;
-        try{
-            while(wagonPos <= position){
+        try {
+            while (wagonPos <= position) {
                 wagon = this.firstWagon.getNextWagon();
                 wagonPos++;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
         return wagon;
@@ -125,9 +138,10 @@ public class Train {
 
     /**
      * Finds the wagon with a given wagonId
+     *
      * @param wagonId
-     * @return  the wagon found
-     *          (return null if no wagon was found with the given wagonId)
+     * @return the wagon found
+     * (return null if no wagon was found with the given wagonId)
      */
     public Wagon findWagonById(int wagonId) {
         // TODO
@@ -141,6 +155,7 @@ public class Train {
      * Verifies that the capacity of the engine is sufficient to also pull the additional wagons
      * Verifies that the wagon is not part of the train already
      * Ignores the predecessors before the head wagon, if any
+     *
      * @param wagon the head wagon of a sequence of wagons to consider for attachment
      * @return whether type and capacity of this train can accommodate attachment of the sequence
      */
@@ -155,8 +170,9 @@ public class Train {
      * No change is made if the attachment cannot be made.
      * (when the sequence is not compatible or the engine has insufficient capacity)
      * if attachment is possible, the head wagon is first detached from its predecessors, if any
+     *
      * @param wagon the head wagon of a sequence of wagons to be attached
-     * @return  whether the attachment could be completed successfully
+     * @return whether the attachment could be completed successfully
      */
     public boolean attachToRear(Wagon wagon) {
         // TODO
@@ -170,8 +186,9 @@ public class Train {
      * No change is made if the insertion cannot be made.
      * (when the sequence is not compatible or the engine has insufficient capacity)
      * if insertion is possible, the head wagon is first detached from its predecessors, if any
+     *
      * @param wagon the head wagon of a sequence of wagons to be inserted
-     * @return  whether the insertion could be completed successfully
+     * @return whether the insertion could be completed successfully
      */
     public boolean insertAtFront(Wagon wagon) {
         // TODO
@@ -182,16 +199,17 @@ public class Train {
     /**
      * Tries to insert the given sequence of wagons at/before the given position in the train.
      * (The current wagon at given position including all its successors shall then be reattached
-     *    after the last wagon of the given sequence.)
+     * after the last wagon of the given sequence.)
      * No change is made if the insertion cannot be made.
      * (when the sequence is not compatible or the engine has insufficient capacity
-     *    or the given position is not valid for insertion into this train)
+     * or the given position is not valid for insertion into this train)
      * if insertion is possible, the head wagon of the sequence is first detached from its predecessors, if any
+     *
      * @param position the position where the head wagon and its successors shall be inserted
      *                 1 <= position <= numWagons + 1
      *                 (i.e. insertion immediately after the last wagon is also possible)
-     * @param wagon the head wagon of a sequence of wagons to be inserted
-     * @return  whether the insertion could be completed successfully
+     * @param wagon    the head wagon of a sequence of wagons to be inserted
+     * @return whether the insertion could be completed successfully
      */
     public boolean insertAtPosition(int position, Wagon wagon) {
         // TODO
@@ -205,16 +223,17 @@ public class Train {
      * No change is made if the removal or attachment cannot be made
      * (when the wagon cannot be found, or the trains are not compatible
      * or the engine of toTrain has insufficient capacity)
-     * @param wagonId   the id of the wagon to be removed
-     * @param toTrain   the train to which the wagon shall be attached
-     *                  toTrain shall be different from this train
-     * @return  whether the move could be completed successfully
+     *
+     * @param wagonId the id of the wagon to be removed
+     * @param toTrain the train to which the wagon shall be attached
+     *                toTrain shall be different from this train
+     * @return whether the move could be completed successfully
      */
     public boolean moveOneWagon(int wagonId, Train toTrain) {
         // TODO
 
         return false;
-     }
+    }
 
     /**
      * Tries to split this train before the wagon at given position and move the complete sequence
@@ -222,10 +241,11 @@ public class Train {
      * No change is made if the split or re-attachment cannot be made
      * (when the position is not valid for this train, or the trains are not compatible
      * or the engine of toTrain has insufficient capacity)
-     * @param position  1 <= position <= numWagons
-     * @param toTrain   the train to which the split sequence shall be attached
-     *                  toTrain shall be different from this train
-     * @return  whether the move could be completed successfully
+     *
+     * @param position 1 <= position <= numWagons
+     * @param toTrain  the train to which the split sequence shall be attached
+     *                 toTrain shall be different from this train
+     * @return whether the move could be completed successfully
      */
     public boolean splitAtPosition(int position, Train toTrain) {
         // TODO
@@ -236,8 +256,8 @@ public class Train {
     /**
      * Reverses the sequence of wagons in this train (if any)
      * i.e. the last wagon becomes the first wagon
-     *      the previous wagon of the last wagon becomes the second wagon
-     *      etc.
+     * the previous wagon of the last wagon becomes the second wagon
+     * etc.
      * (No change if the train has no wagons or only one wagon)
      */
     public void reverse() {
