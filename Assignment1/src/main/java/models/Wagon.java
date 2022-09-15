@@ -111,7 +111,10 @@ public abstract class Wagon {
      */
     public Wagon detachTail() {
         Wagon first = this.nextWagon;
-        this.nextWagon = null;
+        if (first != null) {
+            this.nextWagon = null;
+            first.previousWagon = null;
+        }
         return first;
     }
 
