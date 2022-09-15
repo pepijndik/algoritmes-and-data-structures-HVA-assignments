@@ -153,7 +153,18 @@ public abstract class Wagon {
      * and reconnects its tail to the wagon in front of it, if any.
      */
     public void removeFromSequence() {
-        // TODO
+       Wagon prev = this.getPreviousWagon();
+       Wagon next =this.getNextWagon();
+
+         if(prev != null){
+              prev.detachTail();
+              prev.attachTail(next);
+         }
+         if(next != null){
+              next.detachFront();
+              next.reAttachTo(prev);
+         }
+
     }
 
 
