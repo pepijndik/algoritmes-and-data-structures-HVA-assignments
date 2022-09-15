@@ -104,6 +104,7 @@ public abstract class Wagon {
         }
 
         this.nextWagon = tail;
+        tail.previousWagon = this;
     }
 
     /**
