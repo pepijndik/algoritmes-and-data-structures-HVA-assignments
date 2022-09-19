@@ -86,7 +86,7 @@ public class Train {
      * (return 0 for a freight train)
      */
     public int getTotalNumberOfSeats() {
-        if (this.firstWagon instanceof FreightWagon) {
+        if (isFreightTrain()) {
             return 0;
         }
 
@@ -106,9 +106,16 @@ public class Train {
      * (return 0 for a passenger train)
      */
     public int getTotalMaxWeight() {
-        // TODO
-
-        return 0;
+        if(isPassengerTrain()){
+            return 0;
+        }
+        int totalWeight = 0;
+        Wagon currentWagon = this.firstWagon;
+        while (currentWagon != null) {
+            totalWeight += ((FreightWagon) currentWagon).getMaxWeight();
+            currentWagon = currentWagon.getNextWagon();
+        }
+        return totalWeight;
     }
 
     /**
@@ -261,5 +268,19 @@ public class Train {
 
     }
 
+    @Override
+    public String toString() {
+        StringBuilder Trainstring = new StringBuilder();
+        Trainstring.append(this.engine).append("&nsbp;");
+        if(hasWagons()){
+            Wagon next = firstWagon;
+            while(next != null){
+                Trainstring.append(next).append("&nsbp;");
+                next = next.getNextWagon();
+            }
+        }
+        Trainstring.append(String.format("with %d wagons from %s to %s",this.getNumberOfWagons(),origin,destination));
+        return Trainstring.toString();
+    }
     // TODO string representation of a train
 }
