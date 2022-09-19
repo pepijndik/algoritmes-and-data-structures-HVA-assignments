@@ -6,7 +6,7 @@ public class Train {
     private final String origin;
     private final String destination;
     private final Locomotive engine;
-    private Wagon firstWagon;
+    private Wagon firstWagon ;
 
     /* Representation invariants:
         firstWagon == null || firstWagon.previousWagon == null
@@ -21,8 +21,7 @@ public class Train {
 
     /* three helper methods that are usefull in other methods */
     public boolean hasWagons() {
-
-        return false;
+        return firstWagon != null;
     }
 
     public boolean isPassengerTrain() {
@@ -30,7 +29,7 @@ public class Train {
     }
 
     public boolean isFreightTrain() {
-        return firstWagon instanceof PassengerWagon;
+        return firstWagon instanceof FreightWagon;
     }
 
     public Locomotive getEngine() {
@@ -50,38 +49,35 @@ public class Train {
      *              (can be null)
      */
     public void setFirstWagon(Wagon wagon) {
-        final Wagon first = firstWagon;
-        firstWagon = wagon;
-
-        int wagonId = 0;
-        Wagon prevFirst = this.firstWagon;
-        Wagon newWagon = wagon;
-
-        //Detach first Wagon
-        while (prevFirst != null) {
-            Wagon next = this.firstWagon.getNextWagon();
-            prevFirst = next.getPreviousWagon();
-            ;
-        }
         this.firstWagon = wagon;
-
     }
 
     /**
      * @return the number of Wagons connected to the train
      */
     public int getNumberOfWagons() {
-        // TODO
-
-        return 0;
+        int count = 0;
+       if(hasWagons()){
+           Wagon next = firstWagon;
+           while(next != null){
+               count++;
+               next = next.getNextWagon();
+           }
+       }
+        return count;
     }
 
     /**
      * @return the last wagon attached to the train
      */
     public Wagon getLastWagonAttached() {
-        // TODO
-
+        if(hasWagons()){
+            Wagon next = this.firstWagon;
+            while(next.hasNextWagon()){
+                next = next.getNextWagon();
+            }
+            return next;
+        }
         return null;
     }
 
