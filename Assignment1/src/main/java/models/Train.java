@@ -25,11 +25,11 @@ public class Train {
     }
 
     public boolean isPassengerTrain() {
-        return firstWagon instanceof PassengerWagon;
+        return getFirstWagon() instanceof PassengerWagon;
     }
 
     public boolean isFreightTrain() {
-        return firstWagon instanceof FreightWagon;
+        return getFirstWagon() instanceof FreightWagon;
     }
 
     public Locomotive getEngine() {
@@ -58,7 +58,7 @@ public class Train {
     public int getNumberOfWagons() {
         int count = 0;
        if(hasWagons()){
-           Wagon next = firstWagon;
+           Wagon next = getFirstWagon();
            while(next != null){
                count++;
                next = next.getNextWagon();
@@ -72,7 +72,7 @@ public class Train {
      */
     public Wagon getLastWagonAttached() {
         if(hasWagons()){
-            Wagon next = this.firstWagon;
+            Wagon next = getFirstWagon();
             while(next.hasNextWagon()){
                 next = next.getNextWagon();
             }
@@ -91,7 +91,7 @@ public class Train {
         }
 
         int totalSeats = 0;
-        Wagon currentWagon = this.firstWagon;
+        Wagon currentWagon = getFirstWagon();
         while (currentWagon != null) {
             totalSeats += ((PassengerWagon) currentWagon).getNumberOfSeats();
             currentWagon = currentWagon.getNextWagon();
@@ -110,7 +110,7 @@ public class Train {
             return 0;
         }
         int totalWeight = 0;
-        Wagon currentWagon = this.firstWagon;
+        Wagon currentWagon = getFirstWagon();
         while (currentWagon != null) {
             totalWeight += ((FreightWagon) currentWagon).getMaxWeight();
             currentWagon = currentWagon.getNextWagon();
@@ -126,11 +126,11 @@ public class Train {
      * (return null if the position is not valid for this train)
      */
     public Wagon findWagonAtPosition(int position) {
-        Wagon wagon = firstWagon;
+        Wagon wagon = getFirstWagon();
         int wagonPos = 0;
         try {
             while (wagonPos <= position) {
-                wagon = this.firstWagon.getNextWagon();
+                wagon = wagon.getNextWagon();
                 wagonPos++;
             }
         } catch (Exception e) {
@@ -273,7 +273,7 @@ public class Train {
         StringBuilder Trainstring = new StringBuilder();
         Trainstring.append(this.engine).append("&nsbp;");
         if(hasWagons()){
-            Wagon next = firstWagon;
+            Wagon next = getFirstWagon();
             while(next != null){
                 Trainstring.append(next).append("&nsbp;");
                 next = next.getNextWagon();
