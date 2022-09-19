@@ -37,7 +37,7 @@ public class Train {
     }
 
     public Wagon getFirstWagon() {
-        return firstWagon;
+        return firstWagon != null ? firstWagon :null;
     }
 
     /**
@@ -56,7 +56,7 @@ public class Train {
      * @return the number of Wagons connected to the train
      */
     public int getNumberOfWagons() {
-        int count = 0;
+       int count = 0;
        if(hasWagons()){
            Wagon next = getFirstWagon();
            while(next != null){
@@ -126,15 +126,18 @@ public class Train {
      * (return null if the position is not valid for this train)
      */
     public Wagon findWagonAtPosition(int position) {
-        Wagon wagon = getFirstWagon();
-        int wagonPos = 0;
-        try {
-            while (wagonPos <= position) {
+        Wagon wagon = null;
+        if(hasWagons()){
+            int wagonPos = 1;
+            if(position > getNumberOfWagons() || position < wagonPos){
+                return null;
+            }
+            wagon = getFirstWagon();
+
+            while (wagonPos < position) {
                 wagon = wagon.getNextWagon();
                 wagonPos++;
             }
-        } catch (Exception e) {
-            return null;
         }
         return wagon;
     }
