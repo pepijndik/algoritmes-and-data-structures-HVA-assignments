@@ -55,7 +55,6 @@ public abstract class Wagon {
      * @return  the last wagon
      */
     public Wagon getLastWagonAttached() {
-        // TODO find the last wagon in the sequence
         Wagon next = this;
         while(next.hasNextWagon()){
             next = next.getNextWagon();
@@ -92,12 +91,12 @@ public abstract class Wagon {
 
         //This wagon has next wagon, so tail is already attached to a wagon in front of it
         if(this.hasNextWagon()){
-            throw new IllegalStateException(String.format("%s has already been attached to %s", this, this.getNextWagon()));
+            throw new IllegalStateException(String.format("%s has already been attached to %s", this.getNextWagon(), this));
         }
 
         //Check tail has no previous wagon
         if(tail.hasPreviousWagon()){
-            throw new IllegalStateException(String.format("%s is already pulling %s", tail, tail.getPreviousWagon()));
+            throw new IllegalStateException(String.format("%s is already pulling %s", tail.getPreviousWagon(), tail));
         }
 
         this.nextWagon = tail;
@@ -125,8 +124,6 @@ public abstract class Wagon {
      *          or <code>null</code> if it had no previousWagon.
      */
     public Wagon detachFront() {
-        // TODO detach this wagon from its predecessor (sustaining the invariant propositions).
-        //   and return that predecessor
         Wagon previous = this.previousWagon;
         if(previous != null){
             previous.nextWagon = null;
