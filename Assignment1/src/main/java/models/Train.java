@@ -178,6 +178,9 @@ public class Train {
      */
     public boolean canAttach(Wagon wagon) {
         if (wagon == null) return false;
+
+        if(!this.hasWagons()) return true;
+
         if (wagon.getClass() == this.getFirstWagon().getClass()) {
             return wagon.getSequenceLength() <= (this.engine.getMaxWagons() - this.getNumberOfWagons())
                     && this.findWagonById(wagon.getId()) == null;
