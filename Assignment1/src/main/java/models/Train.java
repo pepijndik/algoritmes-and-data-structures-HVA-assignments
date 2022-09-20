@@ -177,8 +177,11 @@ public class Train {
      * @return whether type and capacity of this train can accommodate attachment of the sequence
      */
     public boolean canAttach(Wagon wagon) {
-        // TODO
-
+        if (wagon == null) return false;
+        if (wagon.getClass() == this.getFirstWagon().getClass()) {
+            return wagon.getSequenceLength() <= (this.engine.getMaxWagons() - this.getNumberOfWagons())
+                    && this.findWagonById(wagon.getId()) == null;
+        }
         return false;
     }
 
