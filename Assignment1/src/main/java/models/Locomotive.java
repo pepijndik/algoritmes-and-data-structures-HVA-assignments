@@ -11,7 +11,7 @@ public class Locomotive{
     }
 
     public int getMaxWagons() {
-        return maxWagons;
+        return maxWagons > 0 ? maxWagons : 0;
     }
 
 

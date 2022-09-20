@@ -100,7 +100,7 @@ public abstract class Wagon {
         }
 
         this.nextWagon = tail;
-        tail.previousWagon = this;
+        tail.setPreviousWagon(this);
     }
 
     /**
@@ -112,7 +112,7 @@ public abstract class Wagon {
         Wagon first = this.nextWagon;
         if (first != null) {
             this.nextWagon = null;
-            first.previousWagon = null;
+            first.setPreviousWagon(null);
         }
         return first;
     }
@@ -124,10 +124,10 @@ public abstract class Wagon {
      *          or <code>null</code> if it had no previousWagon.
      */
     public Wagon detachFront() {
-        Wagon previous = this.previousWagon;
+        Wagon previous = this.getPreviousWagon();
         if(previous != null){
             previous.nextWagon = null;
-            this.previousWagon = null;
+            this.setPreviousWagon(null);
         }
         return previous;
     }
