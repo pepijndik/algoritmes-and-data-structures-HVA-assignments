@@ -150,9 +150,20 @@ public class Train {
      * (return null if no wagon was found with the given wagonId)
      */
     public Wagon findWagonById(int wagonId) {
-        // TODO
-
-        return null;
+        Wagon currentWagon = getFirstWagon();
+        if(hasWagons()){
+            while (currentWagon != null) {
+                if(currentWagon.equals(this.getLastWagonAttached()) && currentWagon.getId() != wagonId){
+                    currentWagon = null;
+                    break;
+                }
+                if(currentWagon.getId() == wagonId){
+                    break;
+                }
+                currentWagon = currentWagon.getNextWagon();
+            }
+        }
+        return currentWagon;
     }
 
     /**
