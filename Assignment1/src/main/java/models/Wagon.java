@@ -35,6 +35,9 @@ public abstract class Wagon {
     public Wagon setPreviousWagon(Wagon wagon) {
         return previousWagon = wagon;
     }
+    public Wagon setNextWagon(Wagon wagon){
+      return nextWagon = wagon;
+    }
     /**
      * @return  whether this wagon has a wagon appended at the tail
      */
@@ -94,12 +97,11 @@ public abstract class Wagon {
             throw new IllegalStateException(String.format("%s has already been attached to %s", this.getNextWagon(), this));
         }
 
-        //Check tail has no previous wagon
+        //Check tail has previous wagon
         if(tail.hasPreviousWagon()){
             throw new IllegalStateException(String.format("%s is already pulling %s", tail.getPreviousWagon(), tail));
         }
-
-        this.nextWagon = tail;
+        this.setNextWagon(tail);
         tail.setPreviousWagon(this);
     }
 
@@ -109,9 +111,9 @@ public abstract class Wagon {
      *          or <code>null</code> if it had no wagons attached to its tail.
      */
     public Wagon detachTail() {
-        Wagon first = this.nextWagon;
+        Wagon first = this.getNextWagon();
         if (first != null) {
-            this.nextWagon = null;
+            this.setNextWagon(null);
             first.setPreviousWagon(null);
         }
         return first;
@@ -126,7 +128,7 @@ public abstract class Wagon {
     public Wagon detachFront() {
         Wagon previous = this.getPreviousWagon();
         if(previous != null){
-            previous.nextWagon = null;
+            previous.setNextWagon(null);
             this.setPreviousWagon(null);
         }
         return previous;
@@ -142,7 +144,7 @@ public abstract class Wagon {
     public void reAttachTo(Wagon front) {
         front.detachTail();
         this.detachFront();
-        this.nextWagon = null;
+        this.setNextWagon(null);
         front.attachTail(this);
     }
 

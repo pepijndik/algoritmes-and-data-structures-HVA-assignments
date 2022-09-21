@@ -178,14 +178,9 @@ public class Train {
      */
     public boolean canAttach(Wagon wagon) {
         if (wagon == null) return false;
-
-        if(!this.hasWagons()) return true;
-
-        if (wagon.getClass() == this.getFirstWagon().getClass()) {
-            return wagon.getSequenceLength() <= (this.engine.getMaxWagons() - this.getNumberOfWagons())
-                    && this.findWagonById(wagon.getId()) == null;
-        }
-        return false;
+        boolean EngineCanPull = wagon.getSequenceLength() <= (this.engine.getMaxWagons() - this.getNumberOfWagons()) && this.findWagonById(wagon.getId()) == null;
+        if(!this.hasWagons() && EngineCanPull) return true;
+        return wagon.getClass() == this.getFirstWagon().getClass() && EngineCanPull;
     }
 
     /**
@@ -198,8 +193,22 @@ public class Train {
      * @return whether the attachment could be completed successfully
      */
     public boolean attachToRear(Wagon wagon) {
-        // TODO
 
+        if(wagon.hasPreviousWagon()){
+            wagon.detachTail();
+        }
+
+        if (!this.hasWagons()) {
+            this.setFirstWagon(wagon);
+            return true;
+        }
+
+        if (canAttach(wagon)) {
+            Wagon last = this.getLastWagonAttached();
+
+            last.attachTail(wagon);
+            return true;
+        }
         return false;
     }
 
@@ -291,11 +300,11 @@ public class Train {
     @Override
     public String toString() {
         StringBuilder Trainstring = new StringBuilder();
-        Trainstring.append(this.engine).append("&nsbp;");
+        Trainstring.append(this.engine).append(" ");
         if(hasWagons()){
             Wagon next = getFirstWagon();
             while(next != null){
-                Trainstring.append(next).append("&nsbp;");
+                Trainstring.append(next).append(" ");
                 next = next.getNextWagon();
             }
         }
