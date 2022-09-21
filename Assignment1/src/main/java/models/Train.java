@@ -190,7 +190,6 @@ public class Train {
      */
     public boolean attachToRear(Wagon wagon) {
         if (canAttach(wagon)) {
-
             if (wagon.hasPreviousWagon()) {
                 wagon.detachFront();
             }
@@ -227,7 +226,8 @@ public class Train {
                 this.setFirstWagon(wagon);
                 return true;
             }
-
+            this.setFirstWagon(wagon);
+            return true;
         }
         return false;
     }
