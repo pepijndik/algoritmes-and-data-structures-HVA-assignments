@@ -58,11 +58,7 @@ public class Train {
     public int getNumberOfWagons() {
         int count = 0;
         if (hasWagons()) {
-            Wagon next = getFirstWagon();
-            while (next != null) {
-                count++;
-                next = next.getNextWagon();
-            }
+            count = getFirstWagon().getSequenceLength();
         }
         return count;
     }
@@ -210,6 +206,7 @@ public class Train {
         return false;
     }
 
+
     /**
      * Tries to insert the given sequence of wagons at the front of the train
      * (the front is at position one, before the current first wagon, if any)
@@ -221,8 +218,17 @@ public class Train {
      * @return whether the insertion could be completed successfully
      */
     public boolean insertAtFront(Wagon wagon) {
-        // TODO
+        if (canAttach(wagon)) {
+            if (wagon.hasPreviousWagon()) {
+                wagon.detachFront();
+            }
+            if (this.hasWagons()) {
+                wagon.getLastWagonAttached().attachTail(this.getFirstWagon());
+                this.setFirstWagon(wagon);
+                return true;
+            }
 
+        }
         return false;
     }
 
