@@ -204,8 +204,7 @@ public class Train {
                 return true;
             }
 
-            Wagon last = this.getLastWagonAttached();
-            last.attachTail(wagon);
+            this.getLastWagonAttached().attachTail(wagon);
             return true;
         }
         return false;
