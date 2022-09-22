@@ -179,6 +179,7 @@ public class Train {
         return wagon.getClass() == this.getFirstWagon().getClass() && EngineCanPull;
     }
 
+
     /**
      * Tries to attach the given sequence of wagons to the rear of the train
      * No change is made if the attachment cannot be made.
@@ -248,8 +249,6 @@ public class Train {
      * @return whether the insertion could be completed successfully
      */
     public boolean insertAtPosition(int position, Wagon wagon) {
-        // TODO
-
         return false;
     }
 
@@ -266,15 +265,15 @@ public class Train {
      * @return whether the move could be completed successfully
      */
     public boolean moveOneWagon(int wagonId, Train toTrain) {
-       Wagon moving = this.findWagonById(wagonId);
-       if (moving != null && toTrain.canAttach(moving)) {
-           if (getFirstWagon().equals(moving)) {
+        Wagon moving = this.findWagonById(wagonId);
+        if (moving != null && toTrain.canAttach(moving)) {
+            if (getFirstWagon().equals(moving)) {
                 setFirstWagon(moving.getNextWagon());
-           }
-           moving.removeFromSequence();
-           toTrain.attachToRear(moving);
-           return true;
-       }
+            }
+            moving.removeFromSequence();
+            toTrain.attachToRear(moving);
+            return true;
+        }
         return false;
     }
 
@@ -291,8 +290,12 @@ public class Train {
      * @return whether the move could be completed successfully
      */
     public boolean splitAtPosition(int position, Train toTrain) {
-        // TODO
-
+        Wagon positionWagon = this.findWagonAtPosition(position);
+        if (positionWagon != null && toTrain.canAttach(positionWagon)) {
+            if (positionWagon == this.getFirstWagon()) setFirstWagon(null);
+            toTrain.attachToRear(positionWagon);
+            return true;
+        }
         return false;
     }
 
