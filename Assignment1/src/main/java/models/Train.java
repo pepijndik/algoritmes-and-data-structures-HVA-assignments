@@ -266,8 +266,15 @@ public class Train {
      * @return whether the move could be completed successfully
      */
     public boolean moveOneWagon(int wagonId, Train toTrain) {
-        // TODO
-
+       Wagon moving = this.findWagonById(wagonId);
+       if (moving != null && toTrain.canAttach(moving)) {
+           if (getFirstWagon().equals(moving)) {
+                setFirstWagon(moving.getNextWagon());
+           }
+           moving.removeFromSequence();
+           toTrain.attachToRear(moving);
+           return true;
+       }
         return false;
     }
 

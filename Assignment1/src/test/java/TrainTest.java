@@ -360,6 +360,7 @@ public class TrainTest {
                 "can move the first wagon to another train");
         assertEquals(2, trainWithoutWagons.getNumberOfWagons(),
                 "one single wagon has been disconnected from its sequence and moved thereafter");
+
         assertEquals(5, passengerTrain.getNumberOfWagons(),
                 "one single wagon has been disconnected from its sequence and moved thereafter");
         assertEquals(8003, passengerTrain.getFirstWagon().getId(),
