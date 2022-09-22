@@ -25,11 +25,11 @@ public abstract class Wagon {
     }
 
     public Wagon getNextWagon() {
-        return nextWagon != null ? nextWagon : null;
+        return this.hasNextWagon() ? nextWagon : null;
     }
 
     public Wagon getPreviousWagon() {
-        return previousWagon;
+        return this.hasPreviousWagon() ? previousWagon : null;
     }
 
     public Wagon setPreviousWagon(Wagon wagon) {
@@ -188,8 +188,10 @@ public abstract class Wagon {
 
         while (current != null) {
             temp = current.getPreviousWagon();
+
             current.setPreviousWagon(current.getNextWagon());
             current.setNextWagon(temp);
+
             current = current.getPreviousWagon();
         }
 
