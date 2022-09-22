@@ -5,18 +5,18 @@ import java.text.MessageFormat;
 public abstract class Wagon {
     protected int id;               // some unique ID of a Wagon
     private Wagon nextWagon = null;        // another wagon that is appended at the tail of this wagon
-                                    // a.k.a. the successor of this wagon in a sequence
-                                    // set to null if no successor is connected
+    // a.k.a. the successor of this wagon in a sequence
+    // set to null if no successor is connected
     private Wagon previousWagon = null;    // another wagon that is prepended at the front of this wagon
-                                    // a.k.a. the predecessor of this wagon in a sequence
-                                    // set to null if no predecessor is connected
+    // a.k.a. the predecessor of this wagon in a sequence
+    // set to null if no predecessor is connected
 
 
     // representation invariant propositions:
     // tail-connection-invariant:   wagon.nextWagon == null or wagon == wagon.nextWagon.previousWagon
     // front-connection-invariant:  wagon.previousWagon == null or wagon = wagon.previousWagon.nextWagon
 
-    public Wagon (int wagonId) {
+    public Wagon(int wagonId) {
         this.id = wagonId;
     }
 
@@ -25,7 +25,7 @@ public abstract class Wagon {
     }
 
     public Wagon getNextWagon() {
-        return nextWagon;
+        return nextWagon != null ? nextWagon : null;
     }
 
     public Wagon getPreviousWagon() {
@@ -35,18 +35,20 @@ public abstract class Wagon {
     public Wagon setPreviousWagon(Wagon wagon) {
         return previousWagon = wagon;
     }
-    public Wagon setNextWagon(Wagon wagon){
-      return nextWagon = wagon;
+
+    public Wagon setNextWagon(Wagon wagon) {
+        return nextWagon = wagon;
     }
+
     /**
-     * @return  whether this wagon has a wagon appended at the tail
+     * @return whether this wagon has a wagon appended at the tail
      */
     public boolean hasNextWagon() {
         return nextWagon != null;
     }
 
     /**
-     * @return  whether this wagon has a wagon prepended at the front
+     * @return whether this wagon has a wagon prepended at the front
      */
     public boolean hasPreviousWagon() {
         return previousWagon != null;
@@ -55,24 +57,25 @@ public abstract class Wagon {
     /**
      * Returns the last wagon attached to it,
      * if there are no wagons attached to it then this wagon is the last wagon.
-     * @return  the last wagon
+     *
+     * @return the last wagon
      */
     public Wagon getLastWagonAttached() {
         Wagon next = this;
-        while(next.hasNextWagon()){
+        while (next.hasNextWagon()) {
             next = next.getNextWagon();
         }
         return next;
     }
 
     /**
-     * @return  the length of the sequence of wagons towards the end of its tail
+     * @return the length of the sequence of wagons towards the end of its tail
      * including this wagon itself.
      */
     public int getSequenceLength() {
         int length = 1;
         Wagon next = this;
-        while (next.hasNextWagon()){
+        while (next.hasNextWagon()) {
             length++;
             next = next.getNextWagon();
         }
@@ -83,22 +86,23 @@ public abstract class Wagon {
      * Attaches the tail wagon and its connected successors behind this wagon,
      * if and only if this wagon has no wagon attached at its tail
      * and if the tail wagon has no wagon attached in front of it.
+     *
      * @param tail the wagon to attach behind this wagon.
      * @throws IllegalStateException if this wagon already has a wagon appended to it.
      * @throws IllegalStateException if tail is already attached to a wagon in front of it.
-     *          The exception should include a message that reports the conflicting connection,
-     *          e.g.: "%s is already pulling %s"
-     *          or:   "%s has already been attached to %s"
+     *                               The exception should include a message that reports the conflicting connection,
+     *                               e.g.: "%s is already pulling %s"
+     *                               or:   "%s has already been attached to %s"
      */
     public void attachTail(Wagon tail) {
 
         //This wagon has next wagon, so tail is already attached to a wagon in front of it
-        if(this.hasNextWagon()){
+        if (this.hasNextWagon()) {
             throw new IllegalStateException(String.format("%s has already been attached to %s", this.getNextWagon(), this));
         }
 
         //Check tail has previous wagon
-        if(tail.hasPreviousWagon()){
+        if (tail.hasPreviousWagon()) {
             throw new IllegalStateException(String.format("%s is already pulling %s", tail.getPreviousWagon(), tail));
         }
         this.setNextWagon(tail);
@@ -107,8 +111,9 @@ public abstract class Wagon {
 
     /**
      * Detaches the tail from this wagon and returns the first wagon of this tail.
+     *
      * @return the first wagon of the tail that has been detached
-     *          or <code>null</code> if it had no wagons attached to its tail.
+     * or <code>null</code> if it had no wagons attached to its tail.
      */
     public Wagon detachTail() {
         Wagon first = this.getNextWagon();
@@ -122,12 +127,13 @@ public abstract class Wagon {
     /**
      * Detaches this wagon from the wagon in front of it.
      * No action if this wagon has no previous wagon attached.
-     * @return  the former previousWagon that has been detached from,
-     *          or <code>null</code> if it had no previousWagon.
+     *
+     * @return the former previousWagon that has been detached from,
+     * or <code>null</code> if it had no previousWagon.
      */
     public Wagon detachFront() {
         Wagon previous = this.getPreviousWagon();
-        if(previous != null){
+        if (previous != null) {
             previous.setNextWagon(null);
             this.setPreviousWagon(null);
         }
@@ -139,6 +145,7 @@ public abstract class Wagon {
      * Before such reconfiguration can be made,
      * the method first disconnects this wagon form its predecessor,
      * and the <code>front</code> wagon from its current tail.
+     *
      * @param front the wagon to which this wagon must be attached to.
      */
     public void reAttachTo(Wagon front) {
@@ -153,46 +160,47 @@ public abstract class Wagon {
      * and reconnects its tail to the wagon in front of it, if any.
      */
     public void removeFromSequence() {
-       Wagon prev = this.getPreviousWagon();
-       Wagon next =this.getNextWagon();
+        Wagon prev = this.getPreviousWagon();
+        Wagon next = this.getNextWagon();
 
-       this.detachTail();
-       this.detachFront();
+        this.detachTail();
+        this.detachFront();
 
-       if(prev!=null){
-           prev.detachTail();
-           if(next!=null){
-               prev.attachTail(next);
-           }
-       }
+        if (prev != null) {
+            prev.detachTail();
+            if (next != null) {
+                prev.attachTail(next);
+            }
+        }
     }
-
 
     /**
      * Reverses the order in the sequence of wagons from this Wagon until its final successor.
      * The reversed sequence is attached again to the wagon in front of this Wagon, if any.
      * No action if this Wagon has no succeeding next wagon attached.
+     *
      * @return the new start Wagon of the reversed sequence (which is the former last Wagon of the original sequence)
      */
     public Wagon reverseSequence() {
-        if (this.hasNextWagon()) {
-            Wagon next = this.getNextWagon();
-            Wagon prev = this.getPreviousWagon();
+        Wagon head = this;
+        Wagon temp = null;
+        Wagon current = this;
 
-            this.detachTail();
-            this.detachFront();
-
-            prev.attachTail(next);
-            next.attachTail(this);
-
-            return next;
+        while (current != null) {
+            temp = current.getPreviousWagon();
+            current.setPreviousWagon(current.getNextWagon());
+            current.setNextWagon(temp);
+            current = current.getPreviousWagon();
         }
 
-        return this;
+        if (temp != null) {
+            head = temp.getPreviousWagon();
+        }
+        return head;
     }
 
     @Override
     public String toString() {
-        return  String.format("[Wagon-%s]", this.id);
+        return String.format("[Wagon-%s]", this.id);
     }
 }

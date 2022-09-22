@@ -307,8 +307,10 @@ public class Train {
      * (No change if the train has no wagons or only one wagon)
      */
     public void reverse() {
-        // TODO
-
+        if(this.hasWagons()){
+            Wagon newFirst = this.getFirstWagon().reverseSequence();
+            this.setFirstWagon(newFirst);
+        }
     }
 
     @Override
