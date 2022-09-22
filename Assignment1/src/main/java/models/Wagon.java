@@ -173,7 +173,13 @@ public abstract class Wagon {
             }
         }
     }
-
+    // Function to swap `next` and `prev` pointers of the given node
+    public void swapPointers()
+    {
+        Wagon prev = this.getPreviousWagon();
+        this.setPreviousWagon(this.getNextWagon());
+        this.setNextWagon(prev);
+    }
     /**
      * Reverses the order in the sequence of wagons from this Wagon until its final successor.
      * The reversed sequence is attached again to the wagon in front of this Wagon, if any.
@@ -182,23 +188,15 @@ public abstract class Wagon {
      * @return the new start Wagon of the reversed sequence (which is the former last Wagon of the original sequence)
      */
     public Wagon reverseSequence() {
-        Wagon head = this;
-        Wagon temp = null;
-        Wagon current = this;
+        Wagon previousWagon = null; //The previous wagon in the sequence
+        Wagon current = this; // current wagon
 
         while (current != null) {
-            temp = current.getPreviousWagon();
-
-            current.setPreviousWagon(current.getNextWagon());
-            current.setNextWagon(temp);
-
+            current.swapPointers();
+            previousWagon = current;
             current = current.getPreviousWagon();
         }
-
-        if (temp != null) {
-            head = temp.getPreviousWagon();
-        }
-        return head;
+        return previousWagon;
     }
 
     @Override
