@@ -249,6 +249,37 @@ public class Train {
      * @return whether the insertion could be completed successfully
      */
     public boolean insertAtPosition(int position, Wagon wagon) {
+
+        if (canAttach(wagon)) {
+            Wagon curr;
+            Wagon head;
+
+            wagon.detachFront();
+            if (firstWagon == null || position == 1) {
+                curr = firstWagon;
+                setFirstWagon(wagon);
+                if (curr != null) {
+                    wagon.attachTail(curr);
+                }
+                return true;
+            }
+            curr = findWagonAtPosition(position);
+            if (curr == null) {
+                this.getLastWagonAttached().attachTail(wagon);
+                return true;
+            }
+            if (curr.hasPreviousWagon()) {
+                head = curr.getPreviousWagon();
+                curr.detachFront();
+                head.attachTail(wagon);
+                if (wagon.hasNextWagon()) {
+                    getLastWagonAttached().attachTail(curr);
+                } else {
+                    wagon.attachTail(curr);
+                }
+            }
+            return true;
+        }
         return false;
     }
 
