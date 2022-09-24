@@ -318,6 +318,10 @@ public class Train {
         if (positionWagon == this.getFirstWagon())
             this.setFirstWagon(null);
 
+        if(positionWagon.hasPreviousWagon()){
+            positionWagon.getPreviousWagon().detachTail();
+            positionWagon.detachFront();
+        }
         toTrain.attachToRear(positionWagon);
 
         return true;
