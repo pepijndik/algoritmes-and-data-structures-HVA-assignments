@@ -288,15 +288,15 @@ public class Train {
      * @return whether the move could be completed successfully
      */
     public boolean moveOneWagon(int wagonId, Train toTrain) {
-        Wagon moving = this.findWagonById(wagonId);
+        Wagon wagon = this.findWagonById(wagonId);
 
-        if (!toTrain.canAttach(moving) || moving == null) return false;
+        if (!toTrain.canAttach(wagon) || wagon == null) return false;
 
-        if (getFirstWagon().equals(moving))
-            setFirstWagon(moving.getNextWagon());
+        if (this.getFirstWagon().equals(wagon))
+            this.setFirstWagon(wagon.getNextWagon());
 
-        moving.removeFromSequence();
-        toTrain.attachToRear(moving);
+        wagon.removeFromSequence();
+        toTrain.attachToRear(wagon);
 
         return true;
     }
