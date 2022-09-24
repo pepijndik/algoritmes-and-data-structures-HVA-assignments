@@ -249,38 +249,37 @@ public class Train {
      * @return whether the insertion could be completed successfully
      */
     public boolean insertAtPosition(int position, Wagon wagon) {
+        if(!this.canAttach(wagon)) return  false;
 
-        if (canAttach(wagon)) {
-            Wagon curr;
-            Wagon head;
+        final int POSITION_LIMIT = this.getNumberOfWagons() + 1;
+        if (position <= 0 || (this.hasWagons() && position > POSITION_LIMIT)) return false;
 
-            wagon.detachFront();
-            if (firstWagon == null || position == 1) {
-                curr = firstWagon;
-                setFirstWagon(wagon);
-                if (curr != null) {
-                    wagon.attachTail(curr);
-                }
-                return true;
+        Wagon current;
+
+        wagon.detachFront();
+        if (this.firstWagon == null || position == 1) {
+            current = this.firstWagon;
+            this.setFirstWagon(wagon);
+
+            if (current != null) {
+                wagon.attachTail(current);
             }
-            curr = findWagonAtPosition(position);
-            if (curr == null) {
-                this.getLastWagonAttached().attachTail(wagon);
-                return true;
-            }
-            if (curr.hasPreviousWagon()) {
-                head = curr.getPreviousWagon();
-                curr.detachFront();
-                head.attachTail(wagon);
-                if (wagon.hasNextWagon()) {
-                    getLastWagonAttached().attachTail(curr);
-                } else {
-                    wagon.attachTail(curr);
-                }
-            }
+
             return true;
         }
-        return false;
+
+        Wagon positionWagon = findWagonAtPosition(position);
+        if (positionWagon == null) return this.attachToRear(wagon);
+
+        if (positionWagon.hasPreviousWagon()) {
+            Wagon previous = positionWagon.getPreviousWagon();
+
+            positionWagon.detachFront();
+            previous.attachTail(wagon);
+            positionWagon.reAttachTo(wagon.getLastWagonAttached());
+        }
+
+        return true;
     }
 
     /**
