@@ -150,9 +150,8 @@ public class Train {
                     currentWagon = null;
                     break;
                 }
-                if (currentWagon.getId() == wagonId) {
-                    break;
-                }
+                if (currentWagon.getId() == wagonId) break;
+
                 currentWagon = currentWagon.getNextWagon();
             }
         }
