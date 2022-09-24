@@ -19,7 +19,7 @@ public class Train {
         this.origin = origin;
     }
 
-    /* three helper methods that are usefull in other methods */
+    /* three helper methods that are useful in other methods */
     public boolean hasWagons() {
         return firstWagon != null;
     }
@@ -190,20 +190,19 @@ public class Train {
      * @return whether the attachment could be completed successfully
      */
     public boolean attachToRear(Wagon wagon) {
-        if (canAttach(wagon)) {
-            if (wagon.hasPreviousWagon()) {
-                wagon.detachFront();
-            }
+        if (!canAttach(wagon)) return false;
 
-            if (!this.hasWagons()) {
-                this.setFirstWagon(wagon);
-                return true;
-            }
+        if (wagon.hasPreviousWagon()) {
+            wagon.detachFront();
+        }
 
-            this.getLastWagonAttached().attachTail(wagon);
+        if (!this.hasWagons()) {
+            this.setFirstWagon(wagon);
             return true;
         }
-        return false;
+        this.getLastWagonAttached().attachTail(wagon);
+
+        return true;
     }
 
 
