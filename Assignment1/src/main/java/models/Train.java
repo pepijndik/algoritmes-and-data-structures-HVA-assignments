@@ -292,15 +292,16 @@ public class Train {
      */
     public boolean moveOneWagon(int wagonId, Train toTrain) {
         Wagon moving = this.findWagonById(wagonId);
-        if (moving != null && toTrain.canAttach(moving)) {
-            if (getFirstWagon().equals(moving)) {
-                setFirstWagon(moving.getNextWagon());
-            }
-            moving.removeFromSequence();
-            toTrain.attachToRear(moving);
-            return true;
-        }
-        return false;
+
+        if (!toTrain.canAttach(moving) || moving == null) return false;
+
+        if (getFirstWagon().equals(moving))
+            setFirstWagon(moving.getNextWagon());
+
+        moving.removeFromSequence();
+        toTrain.attachToRear(moving);
+
+        return true;
     }
 
     /**
