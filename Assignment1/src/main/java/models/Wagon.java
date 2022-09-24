@@ -1,9 +1,6 @@
 package models;
-
-import java.text.MessageFormat;
-
 public abstract class Wagon {
-    protected int id;               // some unique ID of a Wagon
+    protected int id;                       // some unique ID of a Wagon
     private Wagon nextWagon = null;        // another wagon that is appended at the tail of this wagon
     // a.k.a. the successor of this wagon in a sequence
     // set to null if no successor is connected
@@ -97,14 +94,13 @@ public abstract class Wagon {
     public void attachTail(Wagon tail) {
 
         //This wagon has next wagon, so tail is already attached to a wagon in front of it
-        if (this.hasNextWagon()) {
+        if (this.hasNextWagon())
             throw new IllegalStateException(String.format("%s has already been attached to %s", this.getNextWagon(), this));
-        }
 
         //Check tail has previous wagon
-        if (tail.hasPreviousWagon()) {
+        if (tail.hasPreviousWagon())
             throw new IllegalStateException(String.format("%s is already pulling %s", tail.getPreviousWagon(), tail));
-        }
+
         this.setNextWagon(tail);
         tail.setPreviousWagon(this);
     }
@@ -167,9 +163,7 @@ public abstract class Wagon {
 
         if (prev != null) {
             prev.detachTail();
-            if (next != null) {
-                prev.attachTail(next);
-            }
+            if (next != null) prev.attachTail(next);
         }
     }
     
@@ -200,9 +194,7 @@ public abstract class Wagon {
         }
         current = last;
 
-        if (previous != null) {
-            current.reAttachTo(previous);
-        }
+        if (previous != null) current.reAttachTo(previous);
 
         return current;
     }

@@ -1,7 +1,4 @@
 package models;
-
-import java.util.LinkedList;
-
 public class Train {
     private final String origin;
     private final String destination;
@@ -322,7 +319,7 @@ public class Train {
         if (!toTrain.canAttach(positionWagon) || positionWagon == null) return false;
 
         if (positionWagon == this.getFirstWagon())
-            setFirstWagon(null);
+            this.setFirstWagon(null);
 
         toTrain.attachToRear(positionWagon);
 
