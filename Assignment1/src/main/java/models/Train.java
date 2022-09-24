@@ -217,19 +217,17 @@ public class Train {
      * @return whether the insertion could be completed successfully
      */
     public boolean insertAtFront(Wagon wagon) {
-        if (canAttach(wagon)) {
-            if (wagon.hasPreviousWagon()) {
-                wagon.detachFront();
-            }
-            if (this.hasWagons()) {
-                wagon.getLastWagonAttached().attachTail(this.getFirstWagon());
-                this.setFirstWagon(wagon);
-                return true;
-            }
-            this.setFirstWagon(wagon);
-            return true;
-        }
-        return false;
+        if (!canAttach(wagon)) return false;
+
+        if (wagon.hasPreviousWagon())
+            wagon.detachFront();
+
+        if (this.hasWagons())
+            wagon.getLastWagonAttached().attachTail(this.getFirstWagon());
+
+        this.setFirstWagon(wagon);
+
+        return true;
     }
 
     /**
