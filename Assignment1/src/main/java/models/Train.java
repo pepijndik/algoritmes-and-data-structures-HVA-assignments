@@ -246,21 +246,20 @@ public class Train {
      * @return whether the insertion could be completed successfully
      */
     public boolean insertAtPosition(int position, Wagon wagon) {
-        if(!this.canAttach(wagon)) return  false;
-
+        final int FIRST_POSITION = 1;
         final int POSITION_LIMIT = this.getNumberOfWagons() + 1;
-        if (position <= 0 || (this.hasWagons() && position > POSITION_LIMIT)) return false;
-
         Wagon current;
 
+        if(!this.canAttach(wagon)) return false;
+        if (position <= 0 || (this.hasWagons() && position > POSITION_LIMIT)) return false;
+
         wagon.detachFront();
-        if (this.firstWagon == null || position == 1) {
+        if (this.firstWagon == null || position == FIRST_POSITION) {
             current = this.firstWagon;
             this.setFirstWagon(wagon);
 
-            if (current != null) {
+            if (current != null)
                 wagon.attachTail(current);
-            }
 
             return true;
         }
