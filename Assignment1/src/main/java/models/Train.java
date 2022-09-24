@@ -345,17 +345,16 @@ public class Train {
 
     @Override
     public String toString() {
-        StringBuilder Trainstring = new StringBuilder();
-        Trainstring.append(this.engine).append(" ");
+        StringBuilder TrainString = new StringBuilder();
+        TrainString.append(this.engine).append(" ");
         if (hasWagons()) {
             Wagon next = getFirstWagon();
             while (next != null) {
-                Trainstring.append(next).append(" ");
+                TrainString.append(next).append(" ");
                 next = next.getNextWagon();
             }
         }
-        Trainstring.append(String.format("with %d wagons from %s to %s", this.getNumberOfWagons(), origin, destination));
-        return Trainstring.toString();
+        TrainString.append(String.format("with %d wagons from %s to %s", this.getNumberOfWagons(), origin, destination));
+        return TrainString.toString();
     }
-    // TODO string representation of a train
 }
