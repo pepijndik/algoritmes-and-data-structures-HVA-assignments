@@ -122,9 +122,7 @@ public class Train {
         Wagon wagon = null;
         if (hasWagons()) {
             int wagonPos = 1;
-            if (position > getNumberOfWagons() || position < wagonPos) {
-                return null;
-            }
+            if (position > getNumberOfWagons() || position < wagonPos) return null;
             wagon = getFirstWagon();
 
             while (wagonPos < position) {
