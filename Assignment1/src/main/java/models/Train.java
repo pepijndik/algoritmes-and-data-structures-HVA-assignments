@@ -251,8 +251,8 @@ public class Train {
         if (position <= 0 || (this.hasWagons() && position > POSITION_LIMIT)) return false;
 
         wagon.detachFront();
-        if (this.firstWagon == null || position == FIRST_POSITION) {
-            current = this.firstWagon;
+        if (!this.hasWagons() || position == FIRST_POSITION) {
+            current = this.getFirstWagon();
             this.setFirstWagon(wagon);
 
             if (current != null)
