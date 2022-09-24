@@ -318,12 +318,15 @@ public class Train {
      */
     public boolean splitAtPosition(int position, Train toTrain) {
         Wagon positionWagon = this.findWagonAtPosition(position);
-        if (positionWagon != null && toTrain.canAttach(positionWagon)) {
-            if (positionWagon == this.getFirstWagon()) setFirstWagon(null);
-            toTrain.attachToRear(positionWagon);
-            return true;
-        }
-        return false;
+
+        if (!toTrain.canAttach(positionWagon) || positionWagon == null) return false;
+
+        if (positionWagon == this.getFirstWagon())
+            setFirstWagon(null);
+
+        toTrain.attachToRear(positionWagon);
+
+        return true;
     }
 
     /**
