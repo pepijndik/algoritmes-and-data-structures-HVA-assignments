@@ -13,7 +13,11 @@ public interface OrderedList<E> extends List<E> {
 
     default double aggregate(ToDoubleFunction<E> mapper) {
         double sum = 0;
+
         // TODO calculate the sum of all mapped values across all items in the list
+        for (E item : this) {
+            sum += mapper.applyAsDouble(item);
+        }
 
         return sum;
     }
