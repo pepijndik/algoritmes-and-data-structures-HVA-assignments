@@ -151,6 +151,7 @@ public class OrderedArrayList<E>
         } else {
             // TODO retrieve the matched item and
             //  replace the matched item in the list with the merger of the matched item and the newItem
+            merger.apply(this.get(matchedItemIndex), newItem);
 
             return false;
         }
