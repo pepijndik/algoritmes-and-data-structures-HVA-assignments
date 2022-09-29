@@ -23,7 +23,11 @@ public class Product {
     public static Product fromLine(String textLine) {
         Product newProduct = null;
 
-        // TODO convert the information in line to a new Product instance
+        if (textLine != null) {
+            String[] array = textLine.split(", ");
+
+            newProduct = new Product(Long.parseLong(array[0]), array[1], Double.parseDouble(array[2]));
+        }
 
         return newProduct;
     }
