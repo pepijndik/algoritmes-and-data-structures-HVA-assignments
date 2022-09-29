@@ -21,12 +21,18 @@ public class Product {
      *          or null if the textLine is corrupt or incomplete
      */
     public static Product fromLine(String textLine) {
+        final int PRODUCT_INFO_LIMIT = 3;
         Product newProduct = null;
 
         if (textLine != null) {
-            String[] array = textLine.split(", ");
+            String[] pInfoSplitArray = textLine.split(", ");
 
-            newProduct = new Product(Long.parseLong(array[0]), array[1], Double.parseDouble(array[2]));
+            if (pInfoSplitArray.length < PRODUCT_INFO_LIMIT ||
+                    !productValidation(pInfoSplitArray[0],pInfoSplitArray[2]))
+                return null;
+
+            newProduct = new Product(Long.parseLong(pInfoSplitArray[0]), pInfoSplitArray[1],
+                    Double.parseDouble(pInfoSplitArray[2]));
         }
 
         return newProduct;
