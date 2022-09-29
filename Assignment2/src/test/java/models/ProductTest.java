@@ -30,4 +30,15 @@ public class ProductTest {
         assertEquals("Bounty bar", product2.getTitle());
         assertEquals(0.85, product2.getPrice());
     }
+
+    @Test
+    public void aProductDoesNotHaveAllProductParameters() {
+        Product invalidBarcode = Product.fromLine("Bounty bar, Mars bar, 0.90");
+        Product noPrice = Product.fromLine("222222222222222, Bounty bar");
+        Product invalidSeparator = Product.fromLine("222222222222222/Bounty bar/0.85");
+
+        assertNull(invalidBarcode);
+        assertNull(noPrice);
+        assertNull(invalidSeparator);
+    }
 }
