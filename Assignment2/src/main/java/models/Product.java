@@ -39,12 +39,14 @@ public class Product {
     }
 
     public static Boolean productValidation(String barcode, String price) {
+        // Tries to parse the barcode to Long.
         try {
             Long.parseLong(barcode);
         } catch (NumberFormatException e) {
             return false;
         }
 
+        // Tries to parse price to Double.
         try {
             Double.parseDouble(price);
         } catch (NumberFormatException e) {
