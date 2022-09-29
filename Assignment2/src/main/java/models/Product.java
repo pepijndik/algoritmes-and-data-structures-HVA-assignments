@@ -55,7 +55,17 @@ public class Product {
         return this.getBarcode() == ((Product)other).getBarcode();
     }
 
-    // TODO represent the product in the string format: barcode/title/price(2 decimals)
+    @Override
+    public String toString() {
+        StringBuilder product = new StringBuilder();
+
+        product.append(this.barcode).append("/");
+        product.append(this.title).append("/");
+        product.append(this.price);
+
+        return product.toString();
+    }
+
 
     // TODO add public and private methods as per your requirements
 }
