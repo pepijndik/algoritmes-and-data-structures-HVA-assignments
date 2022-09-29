@@ -79,13 +79,10 @@ public class Product {
 
     @Override
     public String toString() {
-        StringBuilder product = new StringBuilder();
+        // Changes the comma from the price to a dot. Example: 1,23 => 1.23
+        String price = String.format("%.2f", this.price).replace(",", ".");
 
-        product.append(this.barcode).append("/");
-        product.append(this.title).append("/");
-        product.append(this.price);
-
-        return product.toString();
+        return String.format("%d/%s/%s", this.barcode, this.title, price);
     }
 
 
