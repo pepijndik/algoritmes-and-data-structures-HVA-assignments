@@ -32,6 +32,22 @@ public class Product {
         return newProduct;
     }
 
+    public static Boolean productValidation(String barcode, String price) {
+        try {
+            Long.parseLong(barcode);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        try {
+            Double.parseDouble(price);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        return true;
+    }
+
     public long getBarcode() {
         return barcode;
     }
