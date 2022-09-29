@@ -163,11 +163,7 @@ public class PurchaseTracker {
             // input another line with author information
             String line = scanner.nextLine();
 
-            // TODO convert the line to an instance of E
-
-
-            // TODO add the item to the list of items
-
+            items.add(converter.apply(line));
         }
         //System.out.printf("Imported %d items from %s.\n", items.size() - originalNumItems, filePath);
     }
