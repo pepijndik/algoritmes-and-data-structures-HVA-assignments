@@ -7,7 +7,8 @@ import java.util.function.BinaryOperator;
 public class OrderedArrayList<E>
         extends ArrayList<E>
         implements OrderedList<E> {
-
+    private int low = 0;
+    private int high = this.nSorted;
     protected Comparator<? super E> ordening;   // the comparator that has been used with the latest sort
     protected int nSorted;                      // the number of items that have been ordered by barcode in the list
     // representation-invariant
@@ -120,11 +121,37 @@ public class OrderedArrayList<E>
      * @return              the position index of the found item in the arrayList, or -1 if no item matches the search item.
      */
     public int indexOfByRecursiveBinarySearch(E searchItem) {
-
         // TODO implement a recursive binary search on the sorted section of the arrayList, 0 <= index < nSorted
         //   to find the position of an item that matches searchItem (this.ordening comparator yields a 0 result)
+        if (this.high >= this.low) {
+            int mid = this.low + (high - low) / 2;
+            int searchResult = this.ordening.compare(this.get(mid), searchItem);
 
-        // TODO if no match was found, attempt a linear search of searchItem in the section nSorted <= index < size()
+            if (searchResult == 0) {
+                this.high = this.nSorted;
+                this.low = 0;
+
+                return mid;
+            } else if (searchResult < 0) {
+                this.low = mid + 1;
+
+                return indexOfByRecursiveBinarySearch(searchItem);
+            } else {
+                this.high = mid - 1;
+
+                return indexOfByRecursiveBinarySearch(searchItem);
+            }
+        } else {
+            // TODO if no match was found, attempt a linear search of searchItem in the section nSorted <= index < size()
+            for (int i = 0; i < this.nSorted; i++) {
+                if (this.get(i) == searchItem) {
+                    high = this.nSorted;
+                    low = 0;
+
+                    return i;
+                }
+            }
+        }
 
         return -1;
     }
