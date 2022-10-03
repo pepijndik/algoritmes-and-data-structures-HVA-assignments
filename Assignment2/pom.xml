@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nl.hva.ads</groupId>
-    <artifactId>supermarket-statistics</artifactId>
-    <version>21.3</version>
-    <name>A2_SupermarketStatistics_starter</name>
+    <artifactId>traffic-control</artifactId>
+    <version>22.1</version>
+    <name>A2_TrafficControl_starter</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

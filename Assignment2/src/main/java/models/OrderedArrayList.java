@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.function.BinaryOperator;
+import java.util.function.Function;
 
 public class OrderedArrayList<E>
         extends ArrayList<E>
@@ -10,7 +11,7 @@ public class OrderedArrayList<E>
     private int low = 0;
     private int high = this.nSorted;
     protected Comparator<? super E> ordening;   // the comparator that has been used with the latest sort
-    protected int nSorted;                      // the number of items that have been ordered by barcode in the list
+    protected int nSorted;                      // the number of sorted items in the first section of the list
     // representation-invariant
     //      all items at index positions 0 <= index < nSorted have been ordered by the given ordening comparator
     //      other items at index position nSorted <= index < size() can be in any order amongst themselves
@@ -44,8 +45,12 @@ public class OrderedArrayList<E>
     }
 
     // TODO override the ArrayList.add(index, item), ArrayList.remove(index) and Collection.remove(object) methods
-    //  such that they sustain the representation invariant of OrderedArrayList
-    //  (hint: only change nSorted as required to guarantee the representation invariant, do not invoke a sort)
+    //  such that they both meet the ArrayList contract of these methods (see ArrayList JavaDoc)
+    //  and sustain the representation invariant of OrderedArrayList
+    //  (hint: only change nSorted as required to guarantee the representation invariant,
+    //   do not invoke a sort or reorder items otherwise differently than is specified by the ArrayList contract)
+
+
 
 
     @Override
@@ -57,10 +62,11 @@ public class OrderedArrayList<E>
 
     @Override
     public int indexOf(Object item) {
-        if (item != null) {
+        // efficient search can be done only if you have provided an ordening for the list
+        if (this.getOrdening() != null) {
             return indexOfByIterativeBinarySearch((E)item);
         } else {
-            return -1;
+            return super.indexOf(item);
         }
     }
 
@@ -101,6 +107,7 @@ public class OrderedArrayList<E>
             }
         }
 
+
         // TODO if no match was found, attempt a linear search of searchItem in the section nSorted <= index < size()
         for (int i = 0; i <= this.nSorted; i++) {
             if (this.get(i) == searchItem) {
@@ -108,7 +115,8 @@ public class OrderedArrayList<E>
             }
         }
 
-        return -1;
+
+        return -1;  // nothing was found ???
     }
 
     /**
@@ -156,6 +164,8 @@ public class OrderedArrayList<E>
         return -1;
     }
 
+
+
     /**
      * finds a match of newItem in the list and applies the merger operator with the newItem to that match
      * i.e. the found match is replaced by the outcome of the merge between the match and the newItem
@@ -180,7 +190,26 @@ public class OrderedArrayList<E>
             //  replace the matched item in the list with the merger of the matched item and the newItem
             merger.apply(this.get(matchedItemIndex), newItem);
 
+
+
             return false;
         }
+    }
+
+    /**
+     * calculates the total sum of contributions of all items in the list
+     * @param mapper    a function that calculates the contribution of a single item
+     * @return          the total sum of all contributions
+     */
+    @Override
+    public double aggregate(Function<E,Double> mapper) {
+        double sum = 0.0;
+
+        // TODO loop over all items and use the mapper
+        //  to calculate and accumulate the contribution of each item
+
+
+
+        return sum;
     }
 }
