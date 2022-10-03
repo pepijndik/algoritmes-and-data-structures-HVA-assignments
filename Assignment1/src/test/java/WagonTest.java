@@ -34,7 +34,6 @@ public class WagonTest {
         checkRepresentationInvariant(freightWagon2);
     }
     public static void checkRepresentationInvariant(Wagon wagon) {
-        // TODO check the nextWagon and previousWagon representation invariants of wagon
         assertTrue(!wagon.hasNextWagon() || wagon == wagon.getNextWagon().getPreviousWagon(),
                 String.format("Wagon %s should be the previous wagon of its next wagon, if any", wagon));
         assertTrue(!wagon.hasPreviousWagon() || wagon == wagon.getPreviousWagon().getNextWagon(),
@@ -359,5 +358,37 @@ public class WagonTest {
 
         assertEquals(passengerWagon1, passengerWagon2.getPreviousWagon());
         assertEquals(passengerWagon4, passengerWagon2.getNextWagon());
+    }
+
+
+    @Test
+    public void T11_RemoveSecondWagonFromThreeShouldResultInSequenceOfThree() {
+        passengerWagon1.attachTail(passengerWagon2);
+        passengerWagon2.attachTail(passengerWagon3);
+
+        // remove first wagon
+        passengerWagon2.removeFromSequence();
+
+        assertTrue(passengerWagon1.hasNextWagon());
+        assertFalse(passengerWagon1.hasPreviousWagon());
+
+        assertNotEquals(passengerWagon3, passengerWagon2.getNextWagon());
+        assertFalse(passengerWagon2.hasPreviousWagon());
+
+        assertFalse(passengerWagon3.hasNextWagon());
+        assertNotEquals(passengerWagon2, passengerWagon3.getPreviousWagon());
+    }
+
+    @Test
+    public void T12_RemoveThirdWagonShouldResultInNoAction() {
+        passengerWagon1.attachTail(passengerWagon2);
+        passengerWagon2.attachTail(passengerWagon3);
+
+        Wagon rev = passengerWagon3.reverseSequence();
+
+        assertEquals(rev, passengerWagon3);
+
+        assertFalse(rev.hasNextWagon());
+        assertEquals(passengerWagon2, rev.getPreviousWagon());
     }
 }

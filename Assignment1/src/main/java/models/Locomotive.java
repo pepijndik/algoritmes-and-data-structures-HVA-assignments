@@ -11,8 +11,13 @@ public class Locomotive{
     }
 
     public int getMaxWagons() {
-        return maxWagons;
+        return maxWagons > 0 ? maxWagons : 0;
     }
 
-    // TODO
+
+    @Override
+    public String toString() {
+        return  String.format("[Loc-%s]", this.locNumber);
+    }
+
 }

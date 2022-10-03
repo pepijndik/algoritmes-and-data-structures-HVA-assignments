@@ -64,8 +64,6 @@ public class TrainTest {
         checkRepresentationInvariant(freightTrain);
     }
     public static void checkRepresentationInvariant(Train train) {
-        // TODO check all aspects of the representation invariant of a train and its wagons
-
         assertFalse(train.hasWagons() && train.getFirstWagon().hasPreviousWagon(),
                 "The first wagon in a train should not have a previous wagon");
         //  check the representation invariant of each wagon
@@ -360,6 +358,7 @@ public class TrainTest {
                 "can move the first wagon to another train");
         assertEquals(2, trainWithoutWagons.getNumberOfWagons(),
                 "one single wagon has been disconnected from its sequence and moved thereafter");
+
         assertEquals(5, passengerTrain.getNumberOfWagons(),
                 "one single wagon has been disconnected from its sequence and moved thereafter");
         assertEquals(8003, passengerTrain.getFirstWagon().getId(),
