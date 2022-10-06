@@ -25,13 +25,13 @@ public class Detection {
     /**
      * Parses detection information from a line of text about a car that has entered an environmentally controlled zone
      * of a specified city.
-     * the format of the text line is: lisensePlate, city, dateTime
+     * the format of the text line is: licensePlate, city, dateTime
      * The licensePlate shall be matched with a car from the provided list.
-     * If no matching car can be found, a new Car shall be instantiated with the given lisensePlate and added to the list
+     * If no matching car can be found, a new Car shall be instantiated with the given licensePlate and added to the list
      * (besides the license plate number there will be no other information available about this car)
      * @param textLine
      * @param cars     a list of known cars, ordered and searchable by licensePlate
-     *                 (i.e. the indexOf method of the list shall only consider the lisensePlate when comparing cars)
+     *                 (i.e. the indexOf method of the list shall only consider the licensePlate when comparing cars)
      * @return a new Detection instance with the provided information
      * or null if the textLine is corrupt or incomplete
      */
