@@ -102,7 +102,7 @@ public class Detection {
         // TODO represent the detection in the format: licensePlate/city/dateTime
 
         return String.format("%s/%s/%s",
-                this.car, this.city, this.dateTime);       // replace by a proper outcome
+                this.car.getLicensePlate(), this.city, this.dateTime);       // replace by a proper outcome
     }
 
 }
