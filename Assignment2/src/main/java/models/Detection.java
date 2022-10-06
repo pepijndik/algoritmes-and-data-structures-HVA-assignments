@@ -1,5 +1,6 @@
 package models;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -36,12 +37,35 @@ public class Detection {
      * or null if the textLine is corrupt or incomplete
      */
     public static Detection fromLine(String textLine, List<Car> cars) {
+        final int DETECTION_INFO_MIN = 3;
         Detection newDetection = null;
 
+        if (textLine == null) return null;
+        textLine = textLine.replaceAll("\\s", "");
+        String[] detectionInfoList = textLine.split(",");
+
+        if (detectionInfoList.length < DETECTION_INFO_MIN) return null;
         // TODO convert the information in the textLine into a new Detection instance
         //  use the cars.indexOf to find the car that is associated with the licensePlate of the detection
         //  if no car can be found a new Car shall be instantiated and added to the list and associated with the detection
+        Car detectedCar = new Car(detectionInfoList[0]);
+        LocalDateTime detectedDateTime;
+        try {
+            detectedDateTime = LocalDateTime.parse(detectionInfoList[2]);
+        } catch (DateTimeException e) {
+            return null;
+        }
 
+        int existedCar = cars.indexOf(detectedCar);
+        if (existedCar < 0) {
+            cars.add(detectedCar);
+        } else {
+            newDetection = new Detection(
+                    cars.get(existedCar),
+                    detectionInfoList[1],
+                    detectedDateTime
+            );
+        }
 
         return newDetection;
     }
