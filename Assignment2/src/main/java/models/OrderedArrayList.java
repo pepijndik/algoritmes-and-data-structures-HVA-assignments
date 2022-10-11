@@ -70,12 +70,7 @@ public class OrderedArrayList<E>
 
     @Override
     public int indexOfByBinarySearch(E searchItem) {
-        if (searchItem != null) {
-            // some arbitrary choice to use the iterative or the recursive version
-            return indexOfByRecursiveBinarySearch(searchItem);
-        } else {
-            return -1;
-        }
+        return searchItem != null ? indexOfByRecursiveBinarySearch(searchItem) : -1;
     }
 
     /**
