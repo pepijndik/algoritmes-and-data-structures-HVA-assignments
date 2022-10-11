@@ -18,8 +18,8 @@ public class TrafficTracker {
         // TODO initialize cars with an empty ordered list which sorts items by licensePlate.
         //  initalize violations with an empty ordered list which sorts items by car and city.
         //  Use your generic implementation class OrderedArrayList
-
-
+        cars = new OrderedArrayList<>(Comparator.comparing(Car::getLicensePlate));
+        violations = new OrderedArrayList<>(Violation::compareByLicensePlateAndCity);
     }
 
     /**
@@ -175,7 +175,6 @@ public class TrafficTracker {
         int numberOfLines = 0;
 
         Scanner scanner = createFileScanner(file);
-
         // read all source lines from the scanner,
         // convert each line to an item of type E
         // and add each successfully converted item into the list
@@ -185,12 +184,8 @@ public class TrafficTracker {
             numberOfLines++;
 
             // TODO convert the line to an instance of E
-
-
-
             // TODO add a successfully converted item to the list of items
-
-
+            items.add(converter.apply(line));
         }
 
         //System.out.printf("Imported %d lines from %s.\n", numberOfLines, file.getPath());
