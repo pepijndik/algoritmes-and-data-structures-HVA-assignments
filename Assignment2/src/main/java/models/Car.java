@@ -126,7 +126,8 @@ public class Car implements Comparable<Car> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Car car)) return false;
+        if (!(o instanceof Car)) return false;
+        Car car = (Car)o;
         // cars are uniquely defined by their license plate
         return licensePlate.equals(car.licensePlate);
     }
