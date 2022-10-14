@@ -14,10 +14,8 @@ public class Violation {
     public static int compareByLicensePlateAndCity(Violation v1, Violation v2) {
         // TODO compute the ordening of v1 vs v2 as per conventions of Comparator<Violation>
 
-
         return 0;   // replace by a proper outcome
     }
-
 
 
     /**
@@ -25,8 +23,9 @@ public class Violation {
      * nullifying identifying attributes car and/or city that do not match
      * identifying attributes that match are retained in the result.
      * This method can be used for aggregating violations applying different grouping criteria
+     *
      * @param other
-     * @return  a new violation with the accumulated offencesCount and matching identifying attributes.
+     * @return a new violation with the accumulated offencesCount and matching identifying attributes.
      */
     public Violation combineOffencesCounts(Violation other) {
         Violation combinedViolation = new Violation(

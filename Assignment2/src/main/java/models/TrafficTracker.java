@@ -30,9 +30,7 @@ public class TrafficTracker {
         this.cars.clear();
 
         // load all cars from the text file
-        int numberOfLines = importItemsFromFile(this.cars,
-                createFileFromURL(TrafficTracker.class.getResource(resourceName)),
-                Car::fromLine);
+        int numberOfLines = importItemsFromFile(this.cars, createFileFromURL(Objects.requireNonNull(TrafficTracker.class.getResource(resourceName))), Car::fromLine);
 
         // sort the cars for efficient later retrieval
         this.cars.sort();
@@ -50,7 +48,7 @@ public class TrafficTracker {
 
         int totalNumberOfOffences =
             this.mergeDetectionsFromVaultRecursively(
-                    createFileFromURL(TrafficTracker.class.getResource(resourceName)));
+                    createFileFromURL(Objects.requireNonNull(TrafficTracker.class.getResource(resourceName))));
 
         System.out.printf("Found %d offences among detections imported from files in %s.\n",
                 totalNumberOfOffences, resourceName);

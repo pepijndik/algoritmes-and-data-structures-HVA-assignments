@@ -83,24 +83,18 @@ public class OrderedArrayList<E>
      * @return              the position index of the found item in the arrayList, or -1 if no item matches the search item.
      */
     public int indexOfByIterativeBinarySearch(E searchItem) {
-        int low = 0, mid, high = this.nSorted -1;
+        int low = 0, high = this.nSorted -1;
 
-        // TODO implement an iterative binary search on the sorted section of the arrayList, 0 <= index < nSorted
-        //   to find the position of an item that matches searchItem (this.ordening comparator yields a 0 result)
         while (low <= high) {
-            mid = (low + high) / 2;
-            int result = this.ordening.compare(searchItem, this.get(mid));
-
-            if (result == 0) return mid;
-            else if (result < 0) low = mid + 1;
+            int mid = (low + high) / 2, compare = this.ordening.compare(searchItem, this.get(mid));
+            if (compare == 0) return mid;
+            else if (compare < 0) low = mid + 1;
             else high = mid - 1;
         }
 
-        // TODO if no match was found, attempt a linear search of searchItem in the section nSorted <= index < size()
-        for (int i = 0; this.nSorted <= i && i < this.size(); i++) {
-            if (this.get(i) == searchItem) return i;
+        for (int i = 0; i <= this.size() - 1; i++) {
+            if (this.ordening.compare(this.get(i), searchItem) == 0) return i;
         }
-
         return -1;  // nothing was found ???
     }
 
