@@ -232,7 +232,7 @@ public class CarsListTest {
             int nSorted = 0;
 
             // handle finding of duplicates
-            if (list instanceof OrderedArrayList<E>) {
+            if (list.getClass().isInstance(new OrderedArrayList<E>())) {
                 nSorted = ((OrderedArrayList<E>) list).nSorted;
                 if (index != i && index >= 0 && ((OrderedArrayList<E>) list).getOrdening().compare(item, list.get(index)) == 0) {
                     // accept the situation when there are duplicates in the OrderedList

@@ -93,6 +93,7 @@ public class OrderedArrayList<E>
         }
 
         for (int i = 0; i <= this.size() - 1; i++) {
+
             if (this.ordening.compare(this.get(i), searchItem) == 0) return i;
         }
         return -1;  // nothing was found ???
@@ -110,10 +111,27 @@ public class OrderedArrayList<E>
     public int indexOfByRecursiveBinarySearch(E searchItem) {
         // TODO implement a recursive binary search on the sorted section of the arrayList, 0 <= index < nSorted
         //   to find the position of an item that matches searchItem (this.ordening comparator yields a 0 result)
+        //Get middle index
+        int start =0;
+        return indexOfByRecursiveBinarySearch(searchItem, start, this.nSorted);
+    }
 
+    public int indexOfByRecursiveBinarySearch(E searchItem, int start, int end) {
+        int middle = (start + end)/2;
+        if(end < start){
+            return -1;
+        }
+        if (this.ordening.compare(searchItem, this.get(middle)) < middle){
+            return indexOfByRecursiveBinarySearch(searchItem, start, middle - 1);
+        }
 
-        // TODO if no match was found, attempt a linear search of searchItem in the section nSorted <= index < size()
+        if (this.ordening.compare(searchItem, this.get(middle)) > middle){
+            return indexOfByRecursiveBinarySearch(searchItem, middle + 1, end);
+        }
 
+        if (this.ordening.compare(searchItem, this.get(middle)) == middle){
+            return middle;
+        }
         return -1;
     }
 
