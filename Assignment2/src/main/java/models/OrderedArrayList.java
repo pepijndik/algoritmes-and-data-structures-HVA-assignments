@@ -9,7 +9,7 @@ public class OrderedArrayList<E>
         extends ArrayList<E>
         implements OrderedList<E> {
     protected Comparator<? super E> ordening;   // the comparator that has been used with the latest sort
-    protected int nSorted =0;                      // the number of sorted items in the first section of the list
+    protected int nSorted;                      // the number of sorted items in the first section of the list
     // representation-invariant
     //      all items at index positions 0 <= index < nSorted have been ordered by the given ordening comparator
     //      other items at index position nSorted <= index < size() can be in any order amongst themselves
@@ -62,14 +62,16 @@ public class OrderedArrayList<E>
 
     @Override
     public void add(int index, E element) {
-        if (nSorted > index) nSorted = index;
+        System.out.println(index+" "+ element);
+        if (getNsorted() > index) this.nSorted = index;
+        System.out.println(index);
         super.add(index, element);
     }
 
 
     @Override
     public void sort() {
-        if (this.nSorted < this.size()) {
+        if (this.getNsorted() < this.size()) {
             this.sort(this.ordening);
         }
     }
@@ -90,9 +92,14 @@ public class OrderedArrayList<E>
     }
 
     private int linearSearch(E searchItem) {
+        if(this.getNsorted() == this.size()) {
+            return -1;
+        }
         // not found in the sorted section, search the unsorted section by linear search
-        for (int i = this.nSorted; i <= this.size() - 1; i++) {
-            if (this.ordening.compare(this.get(i), searchItem) == 0) return i;
+        for (int i = this.getNsorted(); i < this.size(); i++) {
+            if (this.ordening.compare(this.get(i), searchItem) == 0) {
+                return i;
+            }
         }
         return -1;
     }
@@ -107,16 +114,16 @@ public class OrderedArrayList<E>
      * @return              the position index of the found item in the arrayList, or -1 if no item matches the search item.
      */
     public int indexOfByIterativeBinarySearch(E searchItem) {
-        int low = 0, high = this.nSorted -1;
+        int left = 0, right = this.getNsorted() -1;
 
-        while (low <= high) {
-            int mid = (low + high) / 2, compare = this.ordening.compare(searchItem, this.get(mid));
+        while (left <= right) {
+            int mid = (left + right) / 2, compare = this.ordening.compare(searchItem, this.get(mid));
             if (compare == 0) return mid;
-            else if (compare < 0) low = mid + 1;
-            else high = mid - 1;
+            if (compare < 0) right = mid - 1;
+            if(compare >0) left = mid + 1;
         }
         // not found in the sorted section, search the unsorted section by linear search
-        return this.linearSearch(searchItem);
+        return (this.linearSearch(searchItem));
     }
 
     /**
@@ -131,7 +138,7 @@ public class OrderedArrayList<E>
     public int indexOfByRecursiveBinarySearch(E searchItem) {
         // TODO implement a recursive binary search on the sorted section of the arrayList, 0 <= index < nSorted
         //   to find the position of an item that matches searchItem (this.ordening comparator yields a 0 result)
-        return indexOfByRecursiveBinarySearch(searchItem, 0, this.nSorted -1);
+        return indexOfByRecursiveBinarySearch(searchItem, 0, this.getNsorted() -1);
     }
 
     public int indexOfByRecursiveBinarySearch(E searchItem, int start, int end)
@@ -198,5 +205,9 @@ public class OrderedArrayList<E>
 
 
         return sum;
+    }
+
+    public int getNsorted(){
+        return this.nSorted;
     }
 }
