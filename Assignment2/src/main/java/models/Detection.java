@@ -9,6 +9,7 @@ import static models.Car.CarType;
 import static models.Car.FuelType;
 
 public class Detection {
+    private static final int PurpleEmissionCategory= 6;
     private final Car car;                  // the car that was detected
     private final String city;              // the name of the city where the detector was located
     private final LocalDateTime dateTime;   // date and time of the detection event
@@ -38,8 +39,6 @@ public class Detection {
      */
     public static Detection fromLine(String textLine, List<Car> cars) {
         final int DETECTION_INFO_MIN = 3;
-        Detection newDetection = null;
-
         if (textLine == null) return null;
         textLine = textLine.replaceAll("\\s", "");
         String[] detectionInfoList = textLine.split(",");
@@ -60,16 +59,18 @@ public class Detection {
         if (existedCar < 0) {
             cars.add(detectedCar);
         } else {
-            newDetection = new Detection(
+            return new Detection(
                     cars.get(existedCar),
                     detectionInfoList[1],
                     detectedDateTime
             );
         }
-
-        return newDetection;
+        return null;
     }
 
+    static int getPurlpleEmissionCategory(){
+        return Detection.PurpleEmissionCategory;
+    }
     /**
      * Validates a detection against the purple conditions for entering an environmentally restricted zone
      * I.e.:
@@ -78,9 +79,10 @@ public class Detection {
      *          null if no offence was found.
      */
     public Violation validatePurple() {
-        // TODO validate that diesel trucks and diesel coaches have an emission category of 6 or above
-
-
+        boolean carType = this.getCar().getFuelType() == FuelType.Diesel && (this.getCar().getCarType() == CarType.Truck || this.getCar().getCarType() == CarType.Coach);
+        if(carType && this.getCar().getEmissionCategory() < Detection.getPurlpleEmissionCategory()) {
+            return new Violation(this.getCar(), this.getCity());
+        }
         return null;
     }
 
