@@ -111,21 +111,28 @@ public class OrderedArrayList<E>
     public int indexOfByRecursiveBinarySearch(E searchItem) {
         // TODO implement a recursive binary search on the sorted section of the arrayList, 0 <= index < nSorted
         //   to find the position of an item that matches searchItem (this.ordening comparator yields a 0 result)
-        //Get middle index
-        return indexOfByRecursiveBinarySearch(searchItem, 0, this.nSorted);
+        return indexOfByRecursiveBinarySearch(searchItem, 0, this.nSorted -1);
     }
 
-    public int indexOfByRecursiveBinarySearch(E searchItem, int start, int end) {
-        int middle = (start + end)/2;
-        System.out.printf("Nsorted: %d Middle index: %d Ordering: %d %n", this.size(),middle,this.ordening.compare(searchItem, this.get(middle)));
-        if(end < start) return -1;
-       ;
-        if(  this.indexOf(searchItem) < middle) return indexOfByRecursiveBinarySearch(searchItem, start, (middle - 1));
-      //  if (this.ordening.compare(searchItem, this.get(middle)) < middle) return indexOfByRecursiveBinarySearch(searchItem, start, (middle - 1));
-        if(  this.indexOf(searchItem) > middle) return indexOfByRecursiveBinarySearch(searchItem, (middle + 1), end);
-        //if (this.ordening.compare(searchItem, this.get(middle)) > middle) return indexOfByRecursiveBinarySearch(searchItem, (middle + 1), end);
-        if (this.ordening.compare(searchItem, this.get(middle)) == middle) return middle;
+    public int indexOfByRecursiveBinarySearch(E searchItem, int start, int end)
+    {
+        if(end >= start){
+            //Get middle index
+            int middle = start + (end - start)/2;
+            if (this.ordening.compare(this.get(middle),searchItem) == 0){
+                return middle;
+            }
 
+            if( this.ordening.compare(this.get(middle), searchItem) < 0){
+                return indexOfByRecursiveBinarySearch(searchItem, middle +1, end);
+            }
+            if( this.ordening.compare(this.get(middle), searchItem) > 0) return indexOfByRecursiveBinarySearch(searchItem, start, middle -1);
+        }else{
+            //Search Linearly
+            for (int i = 0; i <= this.size() - 1; i++) {
+                if (this.ordening.compare(this.get(i), searchItem) == 0) return i;
+            }
+        }
         return -1;
     }
 
