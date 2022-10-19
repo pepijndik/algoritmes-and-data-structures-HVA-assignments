@@ -13,7 +13,12 @@ public class Violation {
 
     public static int compareByLicensePlateAndCity(Violation v1, Violation v2) {
         // TODO compute the ordening of v1 vs v2 as per conventions of Comparator<Violation>
-
+        //  first compare by car's license plate
+        int i = v1.getCar().getLicensePlate().compareTo(v2.getCar().getLicensePlate());
+        if (i != 0) return i;
+        //  then compare by city
+        i = v1.getCity().compareTo(v2.getCity());
+        if (i != 0) return i;
         return 0;   // replace by a proper outcome
     }
 
